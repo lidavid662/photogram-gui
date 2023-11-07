@@ -1,0 +1,91 @@
+
+    <nav>
+      <ul>
+        <li>
+          <a href="/users">Users</a>
+        </li>
+        <li>
+          <a href="/photos">Photos</a>
+        </li>
+      </ul>
+    </nav>
+
+    <h1><%=@user.username%></h1>
+
+  <dl>
+    <dt>
+      ID
+     </dt>
+    <dd>
+      117
+    </dd>
+
+    <dt>
+      Edit user
+    </dt>
+    <dd>
+      <form action="/modify_user/<%=@user.id%>" method="post">
+        <label for="browser_username">Username</label>
+        <input id="browser_username" type="text" name="query_name" value=<%=@user.username%>>
+
+        <button>Update user</button>
+      </form>
+    </dd>
+  </dl>
+
+  <h2>Own photos (0)</h2>
+
+<table class="table" border="1">
+  <tr>
+    <th>
+      Image
+    </th>
+
+    <th>
+      Owner
+    </th>
+
+    <th>
+      Caption
+    </th>
+
+    <th>
+      Posted
+    </th>
+
+    <td>
+    </td>
+  </tr>
+
+  <% the_id = @user.id %>
+
+  <% matching_movies = Photo.where({ :owner_id => the_id }) %>
+
+  <% films = matching_movies.order({ :created_at => :asc }) %>
+
+  <% films.each do |photo| %>
+    <tr>
+      <td>
+        <img src="<%= photo.image %>">
+      </td>
+
+      <td>
+        <%= photo.poster.username %>
+      </td>
+
+      <td>
+        <%= photo.caption %>
+      </td>
+
+      <td>
+        <%= photo.created_at %>
+      </td>
+
+      <td>
+        <a href="/photos/<%= photo.id %>">
+          Show details
+        </a>
+      </td>
+    </tr>
+  <% end %>
+</table>
